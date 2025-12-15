@@ -30,3 +30,10 @@
 </form>
 
 
+<h1>{{ "Editar" if taller else "Crear" }} Taller</h1>
+
+<form method="POST">
+  <input type="text" name="nombre" value="{{ taller.nombre if taller else '' }}" required>
+  <textarea name="descripcion" required>{{ taller.descripcion if taller else '' }}</textarea>
+  <button type="submit">{{ "Actualizar" if taller else "Crear" }}</button>
+</form>

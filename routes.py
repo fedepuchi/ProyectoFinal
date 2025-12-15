@@ -44,35 +44,47 @@ def create_workshop():
     return redirect("/workshops/new")
 
 
-# PUT /workshops/<id>
-@workshops_bp.route("/workshops/<int:id>", methods=["PUT"])
-def update_workshop(id):
-    data = request.json
-    taller = editar_taller(id, data)
+@workshops_bp.route("/admin/edit/<int:id>", methods=["GET", "POST"])
+def edit_workshop(id):
+    taller = Workshop.query.get(id)
     if not taller:
-        return jsonify({"error": "Taller no encontrado"}), 404
-    return jsonify(taller.as_dict())
+        return "Taller no encontrado", 404
 
-# DELETE /workshops/<id>
-@workshops_bp.route("/workshops/<int:id>", methods=["DELETE"])
+    if request.method == "POST":
+        taller.nombre = request.form["nombre"]
+        taller.descripcion = request.form["descripcion"]
+        db.session.commit()
+        return redirect("/admin")
+
+    return render_template("workshop_form.html", taller=taller)
+
+
+# Eliminar taller
+@workshops_bp.route("/admin/delete/<int:id>", methods=["POST"])
 def delete_workshop(id):
-    taller = eliminar_taller(id)
-    if not taller:
-        return jsonify({"error": "Taller no encontrado"}), 404
-    return jsonify({"message": "Taller eliminado correctamente"})
+    taller = Workshop.query.get(id)
+    if taller:
+        db.session.delete(taller)
+        db.session.commit()
+    return redirect("/admin")
 
 
 @workshops_bp.route("/workshops/<int:id>/register", methods=["POST"])
 def register_student(id):
-    student_id = request.form["student_id"]
+    student_id = request.form.get("student_id")
+    if not student_id:
+        return "Falta el student_id", 400
+
     registro = Registration(
         workshop_id=id,
-        student_id=student_id,
+        student_id=int(student_id),
         fecha_registro=datetime.now().strftime("%d/%m/%Y %H:%M")
     )
+
     db.session.add(registro)
     db.session.commit()
-    return redirect("/workshops")  
+
+    return redirect("/admin")  # redirige al panel después de inscribirse
 
 
 

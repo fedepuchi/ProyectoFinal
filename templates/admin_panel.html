@@ -16,7 +16,11 @@
     <td>{{ taller.descripcion }}</td>
     <td>
       <a href="/admin/edit/{{ taller.id }}">Editar</a>
-      <a href="/admin/delete/{{ taller.id }}">Eliminar</a>
+
+      <!-- Formulario POST para eliminar -->
+      <form method="POST" action="/admin/delete/{{ taller.id }}" style="display:inline;">
+        <button type="submit">Eliminar</button>
+      </form>
     </td>
     <td>
       <form method="POST" action="/workshops/{{ taller.id }}/register">
