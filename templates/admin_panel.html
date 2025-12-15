@@ -2,43 +2,28 @@
 
 <a href="/workshops/new">Crear taller</a>
 
-<table>
+<table border="1">
   <tr>
-    <th>Título</th>
+    <th>Nombre</th>
     <th>Descripción</th>
     <th>Acciones</th>
+    <th>Inscripción</th>
   </tr>
 
   {% for taller in talleres %}
   <tr>
-    <td>{{ taller.titulo }}</td>
+    <td>{{ taller.nombre }}</td>
     <td>{{ taller.descripcion }}</td>
     <td>
       <a href="/admin/edit/{{ taller.id }}">Editar</a>
       <a href="/admin/delete/{{ taller.id }}">Eliminar</a>
     </td>
+    <td>
+      <form method="POST" action="/workshops/{{ taller.id }}/register">
+        <input type="hidden" name="student_id" value="3">
+        <button type="submit">Inscribirse</button>
+      </form>
+    </td>
   </tr>
   {% endfor %}
 </table>
-
-<form method="POST" action="/workshops/{{ taller.id }}/register">
-  <input type="hidden" name="student_id" value="3">
-  <button type="submit">Inscribirse</button>
-</form>
-
-{% endfor %}
-<h2>Inscripciones</h2>
-<table>
-  <tr>
-    <th>Estudiante</th>
-    <th>Taller</th>
-    <th>Fecha de Inscripción</th>
-  </tr>
-
-  {% for inscripcion in inscripciones %}
-  <tr>
-    <td>{{ inscripcion.student.nombre }}</td>
-    <td>{{ inscripcion.workshop.nombre }}</td>
-    <td>{{ inscripcion.fecha_inscripcion }}</td>
-  </tr>
-  {% endfor %}
