@@ -1,0 +1,13 @@
+<h1>Talleres disponibles</h1>
+
+<div class="workshops">
+  {% for taller in talleres %}
+    <div class="workshop">
+      <h3>{{ taller.titulo }}</h3>
+      <p>{{ taller.descripcion }}</p>
+      <span>Cupo: {{ taller.cupo }}</span>
+    </div>
+  {% else %}
+    <p>No hay talleres disponibles</p>
+  {% endfor %}
+</div>

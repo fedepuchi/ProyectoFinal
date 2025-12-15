@@ -9,6 +9,16 @@ class Workshop(db.Model):
     lugar = db.Column(db.String(100))
     categoria = db.Column(db.String(50))
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "descripcion": self.descripcion,
+            "fecha": self.fecha,
+            "hora": self.hora,
+            "lugar": self.lugar,
+            "categoria": self.categoria
+        }
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
